@@ -15,3 +15,8 @@
 - 解决粘包拆包的问题
 - 实现自定义编码解码
 - 实现心跳检测和空闲检测
+
+### 使用说明
+在本地打开项目后，分别运行
+服务端启动类：mc-server/src/main/java/cn/jackie/mc/server.java
+客户端启动类：mc-client/src/main/java/cn/jackie/mc/client.java
