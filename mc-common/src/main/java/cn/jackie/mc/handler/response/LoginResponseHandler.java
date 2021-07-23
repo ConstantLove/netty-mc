@@ -1,9 +1,11 @@
 package cn.jackie.mc.handler.response;
 
+import cn.jackie.mc.cons.Attributes;
 import cn.jackie.mc.cons.ResponseStatus;
 import cn.jackie.mc.entity.Session;
 import cn.jackie.mc.protocol.packet.response.LoginResponsePacket;
 import cn.jackie.mc.utils.SessionUtil;
+import io.netty.channel.Channel;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 import org.apache.logging.log4j.LogManager;

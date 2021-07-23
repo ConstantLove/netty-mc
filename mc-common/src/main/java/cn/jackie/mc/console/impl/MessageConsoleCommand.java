@@ -1,5 +1,6 @@
 package cn.jackie.mc.console.impl;
 
+import cn.jackie.mc.cons.Attributes;
 import cn.jackie.mc.console.ConsoleCommand;
 import cn.jackie.mc.protocol.packet.request.MessageRequestPacket;
 import cn.jackie.mc.utils.SessionUtil;
@@ -19,7 +20,7 @@ public class MessageConsoleCommand implements ConsoleCommand {
         String toUserId = scanner.nextLine();
         System.out.println("请输入信息");
         String message = scanner.nextLine();
-        String fromUserId = SessionUtil.getSession(channel).getUserId();
+        String fromUserId = channel.attr(Attributes.SESSION).get().getUserId();
 
         MessageRequestPacket messageRequestPacket = new MessageRequestPacket();
         messageRequestPacket.setFromUserId(fromUserId);

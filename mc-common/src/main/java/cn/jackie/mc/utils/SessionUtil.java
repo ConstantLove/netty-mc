@@ -2,8 +2,10 @@ package cn.jackie.mc.utils;
 
 import cn.jackie.mc.cons.Attributes;
 import cn.jackie.mc.entity.Session;
+import com.alibaba.fastjson.JSON;
 import io.netty.channel.Channel;
 import io.netty.channel.group.ChannelGroup;
+import redis.clients.jedis.Jedis;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,6 +18,8 @@ public class SessionUtil {
 
     private static Map<String, Channel> userSessionMap = new ConcurrentHashMap<>();
     private static Map<String, ChannelGroup> userGroupMap = new ConcurrentHashMap<>();
+
+    private static Jedis jedis = RedisUtil.getJedisInstance();
 
     /**
      * 创建群聊
@@ -82,8 +86,9 @@ public class SessionUtil {
      * @param channel
      */
     public static void addSession(Session session, Channel channel) {
-        userSessionMap.putIfAbsent(session.getUserId(), channel);
         channel.attr(Attributes.SESSION).set(session);
+        jedis.set("user:" + session.getUserId(), session.getUsername());
+        userSessionMap.putIfAbsent(session.getUserId(), channel);
     }
 
     /**
@@ -92,7 +97,9 @@ public class SessionUtil {
      */
     public static void removeSession(Channel channel) {
         if (existsSession(channel)) {
-            userSessionMap.remove(getSession(channel).getUserId());
+            String userId = getSession(channel).getUserId();
+            userSessionMap.remove(userId);
+            jedis.del("user:" + userId);   // 删除用户会话
             channel.attr(Attributes.SESSION).set(null);
         }
     }
@@ -103,7 +110,9 @@ public class SessionUtil {
      * @return
      */
     public static boolean existsSession(Channel channel) {
-        return channel.hasAttr(Attributes.SESSION) && channel.attr(Attributes.SESSION).get() != null;
+        if (!channel.hasAttr(Attributes.SESSION))
+            return false;
+        return jedis.get("user:" + channel.attr(Attributes.SESSION).get().getUserId()) != null;
     }
 
     /**
