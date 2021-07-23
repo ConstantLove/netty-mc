@@ -2,6 +2,7 @@ package cn.jackie.mc.handler.request;
 
 import cn.jackie.mc.protocol.packet.request.HeartBeatRequestPacket;
 import cn.jackie.mc.protocol.packet.response.HeartBeatResponsePacket;
+import io.netty.channel.ChannelHandler;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.SimpleChannelInboundHandler;
 
@@ -9,6 +10,7 @@ import io.netty.channel.SimpleChannelInboundHandler;
  * 心跳检测处理器，用于服务端
  * @author Jackie Ke
  */
+@ChannelHandler.Sharable
 public class HeartBeatRequestHandler extends SimpleChannelInboundHandler<HeartBeatRequestPacket> {
 
     public static final HeartBeatRequestHandler INSTANCE = new HeartBeatRequestHandler();
