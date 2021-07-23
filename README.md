@@ -15,10 +15,13 @@
 - 解决粘包拆包的问题
 - 实现自定义编码解码
 - 实现心跳检测和空闲检测
+- 使用Redis保存用户会话信息
 
 ### 使用说明
-在本地打开项目后，分别运行
+在本地打开项目
+1). 修改Redis工具类的配置信息：mc-common/src/main/java/cn/jackie/mc/utils/RedisUtil
 
+2). 分别运行服务端和客户端的启动类：
 服务端启动类：mc-server/src/main/java/cn/jackie/mc/server.java
 
 客户端启动类：mc-client/src/main/java/cn/jackie/mc/client.java
